@@ -1,6 +1,6 @@
 SQL_G_BUILD = """
             CREATE TABLE tGame(
-                game_id INTEGER NOT NULL PRIMARY KEY check(length(game_id)==5),
+                game_id INTEGER NOT NULL PRIMARY KEY,
                 season INTEGER NOT NULL check(length(season)==4),
                 week INTEGER NOT NULL,
                 home_team TEXT NOT NULL,

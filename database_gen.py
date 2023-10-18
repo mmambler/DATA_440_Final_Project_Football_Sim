@@ -149,6 +149,8 @@ class DB():
 
         clear_output(wait=True)
         print('Preprocessing Data...')
+        
+        df = df[df['yards'].notna()]
 
         Pre_Proc = PP()
         clean_df = Pre_Proc.pre_processing(data=df)
