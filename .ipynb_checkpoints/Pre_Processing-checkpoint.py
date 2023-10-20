@@ -15,14 +15,14 @@ class pre_processing:
     def get_values(self, data):
 
         '''
-        This function gets the index of all games just between FCS teams and the total yards gained per play
+        This function gets the total yards gained per play, the play type, and reformats the field position variable
 
         Returns:
-            yards_gained_pass, list (yards from pass + yards after catch)
+            yards_gained, play_type
         '''
 
         import pandas as pd
-
+        
         yards_gained = []
         play_type = []
         for row in data.itertuples():
@@ -38,6 +38,36 @@ class pre_processing:
                 print('Game ID', row.gsis_game_id)
                 print('Play ID', row.gsis_play_id)
         return(yards_gained, play_type)
+    
+    def parse_fieldpos(self, data):
+        '''
+        This function reformats the field position variable to make it easier to use for analysis.
+        '''
+        import pandas as pd
+        
+        fieldpos_list = [pos.split(' ') for pos in data['fieldpos']]
+        for i, pos in enumerate(fieldpos_list):
+            if pos[0] == data['offense'].iloc[i]:
+                pos[1] = int('-' + pos[1])
+                data['fieldpos'].iloc[i] = pos[1]
+            else:
+                data['fieldpos'].iloc[i] = int(pos[1])
+                
+        return data
+    
+    def parse_game_clock(self, data):
+        '''
+        This function reformats the game clock variable to make it easier to use for analysis.
+        '''
+        import pandas as pd
+        data['clock_min'] = ''
+        data['clock_sec'] = ''
+        game_clock_list = [clock.split(':') for clock in data['game_clock']]
+        for i, clock in enumerate(game_clock_list):
+            data['clock_min'].iloc[i] = int(clock[0])
+            data['clock_sec'].iloc[i] = int(clock[1])
+
+        return data
     
     def stitch(self, yards, play_type, data):
 
@@ -62,6 +92,8 @@ class pre_processing:
             clean_data, padas dataframe (data frame of cleaned and processed data)
         '''
         yards_gained, play_type= self.get_values(data)
+        data = self.parse_fieldpos(data)
+        data = self.parse_game_clock(data)
         clean_data = self.stitch(yards_gained, play_type, data)
         return(clean_data)
     
