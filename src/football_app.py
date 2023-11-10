@@ -30,40 +30,28 @@ class FBApp:
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.subheader('USER: 34')
+            st.subheader('USER: ' + str(st.session_state.USER_SCORE))
         with col2:
             st.subheader('Play Clock: ' + str(st.session_state.MINUTES) + ':' + f"{st.session_state.SECONDS:02}")
         with col3:
             col_1, col_2 = st.columns(2)
             with col_2:
-                st.subheader('CPU: 34')
+                st.subheader('CPU: ' + str(st.session_state.CPU_SCORE))
 
         col1, col2, col3 = st.columns(3)
         with col1:
             st.button('RESET CLOCK', on_click=self.reset_game_clock)
         with col2:
-            st.subheader('Quarter: ')
+            st.subheader('Quarter: ' + str(st.session_state.QUARTER))
         with col3:
-            st.subheader('Down/Dist: ')
-
-        field_slot = st.empty()
-
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            self.offense = st.selectbox('Offense', sorted(dropdown.nfl_teams), index=31)
-            st.selectbox('Game Clock (Min.)', dropdown.clock_min)
-            st.selectbox('Quarter', [1,2,3,4])
-        with col2:
-            self.defense = st.selectbox('Defense', sorted(dropdown.nfl_teams), index=9)
-            st.selectbox('Game Clock (Sec.)', sorted(dropdown.clock_sec))
-            st.selectbox('Down', [1,2,3,4])
-        with col3:
-            self.field_pos = st.selectbox('Field Pos.', dropdown.field_pos)
-            self.hash = st.selectbox('Hash', ['Center','Left','Right'])
-            self.distance = st.selectbox('Distance', dropdown.distance, index=9)
+            col_1, col_2 = st.columns(2)
+            with col_2:
+                st.subheader(st.session_state.DOWN + ' & ' + str(st.session_state.DISTANCE))
         
-        self.field = FBField(hash = self.hash, field_pos=self.field_pos, distance=self.distance)
-        field_slot.pyplot(self.field.fig)
+        self.field = FBField(hash = st.session_state.HASH, 
+                             field_pos=st.session_state.FIELD_POS, 
+                             distance=st.session_state.DISTANCE)
+        st.pyplot(self.field.fig)
 
         st.write('')
 
@@ -115,6 +103,20 @@ class FBApp:
             st.session_state.MINUTES = 15
         if 'SECONDS' not in st.session_state:
             st.session_state.SECONDS = 0
+        if 'USER_SCORE' not in st.session_state:
+            st.session_state.USER_SCORE = 0
+        if 'CPU_SCORE' not in st.session_state:
+            st.session_state.CPU_SCORE = 0
+        if 'QUARTER' not in st.session_state:
+            st.session_state.QUARTER = 1
+        if 'DOWN' not in st.session_state:
+            st.session_state.DOWN = '1st'
+        if 'DISTANCE' not in st.session_state:
+            st.session_state.DISTANCE = 10
+        if 'FIELD_POS' not in st.session_state:
+            st.session_state.FIELD_POS = -25
+        if 'HASH' not in st.session_state:
+            st.session_state.HASH = 'Center'
 
         return
     
