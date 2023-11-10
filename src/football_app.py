@@ -10,14 +10,10 @@ class FBApp:
 
     def __init__(self):
 
-        if 'MINUTES' not in st.session_state:
-            st.session_state.MINUTES = 15
-        if 'SECONDS' not in st.session_state:
-            st.session_state.SECONDS = 0
-
         self.field = FBField()
         self.db = FootballDB()
 
+        self.initialize_session_state()
         self.load_tables_from_db()
         self.build_page()
         self.streamlit_defaults()
@@ -26,19 +22,29 @@ class FBApp:
     def build_page(self):
         
         st.header("Gridiron Guru: Offensive Playcalling Simulator")
+        _,_,col,_,_ = st.columns(5)
+        with col:
+            st.write('By: Mac Ambler')
 
         st.write('')
 
         col1, col2, col3 = st.columns(3)
         with col1:
             st.subheader('USER: 34')
-            st.button('RESET CLOCK', on_click=self.reset_game_clock)
         with col2:
             st.subheader('Play Clock: ' + str(st.session_state.MINUTES) + ':' + f"{st.session_state.SECONDS:02}")
         with col3:
             col_1, col_2 = st.columns(2)
             with col_2:
                 st.subheader('CPU: 34')
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.button('RESET CLOCK', on_click=self.reset_game_clock)
+        with col2:
+            st.subheader('Quarter: ')
+        with col3:
+            st.subheader('Down/Dist: ')
 
         field_slot = st.empty()
 
@@ -64,7 +70,6 @@ class FBApp:
         _,_,_,col1, col2,_,_,_ = st.columns(8)
         with col1:
             st.button('RUSH', on_click=self.update_game_clock)
-            
         with col2:
             st.button('PASS', on_click=self.update_game_clock)
 
@@ -102,6 +107,15 @@ class FBApp:
         self.tRush = self.db.get_tRush()
         self.tRunConcept = self.db.get_tRunConcept()
         
+        return
+    
+    def initialize_session_state(self):
+
+        if 'MINUTES' not in st.session_state:
+            st.session_state.MINUTES = 15
+        if 'SECONDS' not in st.session_state:
+            st.session_state.SECONDS = 0
+
         return
     
     def streamlit_defaults(self):
