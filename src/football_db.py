@@ -1,8 +1,8 @@
 import os
 import sqlite3
 import pandas as pd
-from Pre_Processing import pre_processing as PP
-import sql_queries as SQ
+from src.Pre_Processing import pre_processing as PP
+import src.sql_queries as SQ
 from IPython.display import clear_output
 from glob import glob
 

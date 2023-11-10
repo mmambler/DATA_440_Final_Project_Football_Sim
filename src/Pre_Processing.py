@@ -23,6 +23,8 @@ class pre_processing:
 
         import pandas as pd
         
+        
+
         yards_gained = []
         play_type = []
         for row in data.itertuples():
