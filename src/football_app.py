@@ -94,7 +94,7 @@ class FBApp:
             st.session_state.QUARTER = st.session_state.QUARTER + 1
         else:
             st.session_state.SECONDS = temp_sec
-
+        
         return
     
     def load_tables_from_db(self):
