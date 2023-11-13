@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import streamlit as st
+import numpy as np
 from src.football_viz import FBField
 from src.football_db import FootballDB
 import src.dropdown_lists as dropdown
@@ -40,7 +41,7 @@ class FBApp:
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.button('RESET CLOCK', on_click=self.reset_game_clock)
+            st.button('RESTART GAME', on_click=self.reset_game)
         with col2:
             st.subheader('Quarter: ' + str(st.session_state.QUARTER))
         with col3:
@@ -57,30 +58,40 @@ class FBApp:
 
         _,_,_,col1, col2,_,_,_ = st.columns(8)
         with col1:
-            st.button('RUSH', on_click=self.update_game_clock)
+            st.button('RUSH', on_click=self.update_game)
         with col2:
-            st.button('PASS', on_click=self.update_game_clock)
+            st.button('PASS', on_click=self.update_game)
 
         return
     
-    def reset_game_clock(self):
+    def reset_game(self):
         '''
-        Resets the game clock to 15:00
+        Resets the game
         '''
         st.session_state.MINUTES = 15
         st.session_state.SECONDS = 0
+        st.session_state.USER_SCORE = 0
+        st.session_state.CPU_SCORE = 0
+        st.session_state.QUARTER = 1
+        st.session_state.DOWN = '1st'
+        st.session_state.DISTANCE = 10
+        st.session_state.FIELD_POS = -25
     
         return
     
-    def update_game_clock(self):
+    def update_game(self):
         '''
-        Updates the game clock after play called
+        Updates the game situation after play called
         '''
-        runoff = -20
+        runoff = -1*int(round(np.random.normal(20,5), 0))
         temp_sec = st.session_state.SECONDS + runoff
-        if temp_sec < 0:
+        if (st.session_state.MINUTES > 0) and (temp_sec < 0):
             st.session_state.MINUTES = st.session_state.MINUTES-1
             st.session_state.SECONDS = 60 + temp_sec
+        elif (st.session_state.MINUTES == 0) and (temp_sec < 0):
+            st.session_state.MINUTES = 15
+            st.session_state.SECONDS = 0
+            st.session_state.QUARTER = st.session_state.QUARTER + 1
         else:
             st.session_state.SECONDS = temp_sec
 
@@ -98,6 +109,9 @@ class FBApp:
         return
     
     def initialize_session_state(self):
+        '''
+        Initializes session state variables if they don't already exist
+        '''
 
         if 'MINUTES' not in st.session_state:
             st.session_state.MINUTES = 15
