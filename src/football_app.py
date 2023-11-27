@@ -120,7 +120,7 @@ class FBApp:
         else:
             st.session_state.DOWN = 1
             st.session_state.DISTANCE = 10
-            field_pos_temp = dropdown.field_pos_dict_reverse[st.session_state.FIELD_POS] + yards_gained
+            field_pos_temp = dropdown.field_pos_dict_reverse[int(st.session_state.FIELD_POS)] + yards_gained
             st.session_state.FIELD_POS = dropdown.field_pos_dict[field_pos_temp]
 
         return
