@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import streamlit as st
 import numpy as np
+import random
 from src.football_viz import FBField
 from src.football_db import FootballDB
 import src.dropdown_lists as dropdown
@@ -68,8 +69,6 @@ class FBApp:
             st.button('RUSH', on_click=self.rush_master_update)
         with col2:
             st.button('PASS', on_click=self.pass_master_update)
-
-        st.write(self.tPass)
 
         return
     
@@ -140,10 +139,13 @@ class FBApp:
         return
     
     def update_position_pass(self):
-
-        df = self.tPass
-        filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
-        yards_gained = filter_df['yards_gained'].sample().iloc[0]
+        rand_num = random.random()
+        if rand_num <= 0.65:
+            df = self.tPass
+            filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
+            yards_gained = filter_df['yards_gained'].sample().iloc[0]
+        else:
+            yards_gained = 0
         dist_temp = st.session_state.DISTANCE - yards_gained
         if dist_temp > 0:
             if st.session_state.DOWN < 4:
