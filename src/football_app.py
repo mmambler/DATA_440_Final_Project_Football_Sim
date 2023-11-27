@@ -63,7 +63,7 @@ class FBApp:
         st.pyplot(self.field.fig)
 
         st.write('')
-        _,col,_ = st.columns([1.6,3,1])
+        _,col,_ = st.columns([1.7,3,1])
         with col:
             if st.session_state.YARDS_RESULT != '':
                 st.subheader(st.session_state.YARDS_RESULT)
@@ -163,6 +163,7 @@ class FBApp:
                 st.session_state.DOWN += 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+                st.session_state.YARDS_RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS'
             else:
                 self.reset_drive()
         else:
@@ -170,6 +171,7 @@ class FBApp:
             st.session_state.DISTANCE = 10
             field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
             st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+            st.session_state.YARDS_RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS'
 
         return
     
