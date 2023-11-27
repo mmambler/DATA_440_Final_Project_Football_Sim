@@ -63,11 +63,12 @@ class FBApp:
             st.button('PASS', on_click=self.pass_master_update)
 
         df = FootballDB().get_tRush()
-        filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
 
         st.write(st.session_state.FIELD_POS)
         st.write(st.session_state.DOWN)
         st.write(st.session_state.DISTANCE)
+
+        filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
         st.write(filter_df)
 
         return
