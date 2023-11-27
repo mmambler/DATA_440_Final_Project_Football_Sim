@@ -58,9 +58,9 @@ class FBApp:
 
         _,_,_,col1, col2,_,_,_ = st.columns(8)
         with col1:
-            st.button('RUSH', on_click=self.master_update)
+            st.button('RUSH', on_click=self.rush_master_update)
         with col2:
-            st.button('PASS', on_click=self.master_update)
+            st.button('PASS', on_click=self.pass_master_update)
 
         df = FootballDB.get_tRush()
         filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
