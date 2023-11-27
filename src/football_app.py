@@ -63,9 +63,9 @@ class FBApp:
             st.button('PASS', on_click=self.pass_master_update)
 
         df = FootballDB().get_tRush()
-        #filter_df = df[df[('fieldpos'==dropdown.field_pos_dict[st.session_state.FIELD_POS]) & ('down'==st.session_state.DOWN) & ('distance'==st.session_state.DISTANCE)]]
+        filter_df = df[df[('fieldpos'==dropdown.field_pos_dict[st.session_state.FIELD_POS]) & ('down'==st.session_state.DOWN) & ('distance'==st.session_state.DISTANCE)]]
 
-        st.write(df)
+        st.write(filter_df)
         st.write(st.session_state.FIELD_POS)
         st.write(st.session_state.DOWN)
         st.write(st.session_state.DISTANCE)
@@ -81,7 +81,7 @@ class FBApp:
         st.session_state.USER_SCORE = 0
         st.session_state.CPU_SCORE = 0
         st.session_state.QUARTER = 1
-        st.session_state.DOWN = '1st'
+        st.session_state.DOWN = 1
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
     
@@ -157,7 +157,7 @@ class FBApp:
         if 'QUARTER' not in st.session_state:
             st.session_state.QUARTER = 1
         if 'DOWN' not in st.session_state:
-            st.session_state.DOWN = '1st'
+            st.session_state.DOWN = 1
         if 'DISTANCE' not in st.session_state:
             st.session_state.DISTANCE = 10
         if 'FIELD_POS' not in st.session_state:
