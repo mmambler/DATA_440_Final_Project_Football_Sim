@@ -67,6 +67,8 @@ class FBApp:
 
         st.write(df)
         st.write(st.session_state.FIELD_POS)
+        st.write(st.session_state.DOWN)
+        st.write(st.session_state.DISTANCE)
 
         return
     
