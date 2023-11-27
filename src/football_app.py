@@ -86,6 +86,16 @@ class FBApp:
     
         return
     
+    def reset_drive(self):
+        '''
+        Resets the drive
+        '''
+        st.session_state.DOWN = 1
+        st.session_state.DISTANCE = 10
+        st.session_state.FIELD_POS = -25
+    
+        return
+    
     def rush_master_update(self):
         '''
         Runs all functions to occur on rush button click
@@ -98,7 +108,21 @@ class FBApp:
         df = FootballDB().get_tRush()
         filter_df = df[(df['fieldpos']==str(st.session_state.FIELD_POS)) & (df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
         yards_gained = filter_df['yards_gained'].sample().iloc[0]
-        st.write(str(yards_gained), 'YARDS GAINED')
+        dist_temp = st.session_state.DISTANCE - yards_gained
+        if dist_temp > 0:
+            st.session_state.DISTANCE = dist_temp
+            if st.session_state.DOWN < 4:
+                st.session_state.DOWN += 1
+                field_pos_temp = dropdown.field_pos_dict_reverse[st.session_state.FIELD_POS] + yards_gained
+                st.session_state.FIELD_POS = dropdown.field_pos_dict[field_pos_temp]
+            else:
+                self.reset_drive()
+        else:
+            st.session_state.DOWN = 1
+            st.session_state.DISTANCE = 10
+            field_pos_temp = dropdown.field_pos_dict_reverse[st.session_state.FIELD_POS] + yards_gained
+            st.session_state.FIELD_POS = dropdown.field_pos_dict[field_pos_temp]
+
         return
     
     def pass_master_update(self):

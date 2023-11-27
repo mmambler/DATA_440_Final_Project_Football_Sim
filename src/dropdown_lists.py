@@ -33,3 +33,4 @@ field_pos_non_neg = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,
                     84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99]
 
 field_pos_dict = dict(zip(field_pos,field_pos_non_neg))
+field_pos_dict_reverse = dict(zip(field_pos_non_neg,field_pos))
