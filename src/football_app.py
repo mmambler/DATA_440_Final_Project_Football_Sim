@@ -69,7 +69,7 @@ class FBApp:
         st.write(st.session_state.DISTANCE)
 
         st.write(df)
-        filter_df = df[df[('fieldpos'==str(st.session_state.FIELD_POS)) & ('down'==st.session_state.DOWN) & ('distance'==st.session_state.DISTANCE)]]
+        filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) & ('down'==st.session_state.DOWN) & ('distance'==st.session_state.DISTANCE)]]
         st.write(filter_df)
 
         return
