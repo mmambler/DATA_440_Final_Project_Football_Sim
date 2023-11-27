@@ -69,16 +69,6 @@ class FBApp:
         with col2:
             st.button('PASS', on_click=self.pass_master_update)
 
-        df = FootballDB().get_tRush()
-
-        st.write(st.session_state.FIELD_POS)
-        st.write(st.session_state.DOWN)
-        st.write(st.session_state.DISTANCE)
-
-        st.write(df)
-        filter_df = df[(df['fieldpos']==str(st.session_state.FIELD_POS)) & (df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
-        st.write(filter_df)
-
         return
     
     def reset_game(self):
@@ -100,13 +90,15 @@ class FBApp:
         '''
         Runs all functions to occur on rush button click
         '''
+        self.update_position_rush()
         self.update_game()
         return
     
     def update_position_rush(self):
         df = FootballDB().get_tRush()
-        filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
-
+        filter_df = df[(df['fieldpos']==str(st.session_state.FIELD_POS)) & (df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
+        yards_gained = filter_df['yards_gained'].sample()
+        st.write(yards_gained)
         return
     
     def pass_master_update(self):
