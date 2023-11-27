@@ -63,7 +63,7 @@ class FBApp:
         st.pyplot(self.field.fig)
 
         st.write('')
-        _,col,_ = st.columns([2.5,3,1])
+        _,col,_ = st.columns([1.5,3,1])
         with col:
             if st.session_state.YARDS_RESULT != '':
                 st.subheader(st.session_state.YARDS_RESULT)
