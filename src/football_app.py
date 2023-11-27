@@ -108,10 +108,6 @@ class FBApp:
         
         df = FootballDB().get_tRush()
         filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
-        st.write(st.session_state.DOWN)
-        st.write(st.session_state.DISTANCE)
-        st.write(st.session_state.FIELD_POS)
-        st.write(filter_df)
         yards_gained = filter_df['yards_gained'].sample().iloc[0]
         dist_temp = st.session_state.DISTANCE - yards_gained
         if dist_temp > 0:
