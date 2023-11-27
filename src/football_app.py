@@ -49,11 +49,11 @@ class FBApp:
             with col_2:
                 if st.session_state.DOWN == 1:
                     st.subheader(str(st.session_state.DOWN) + 'st & ' + str(st.session_state.DISTANCE))
-                if st.session_state.DOWN == 2:
+                elif st.session_state.DOWN == 2:
                     st.subheader(str(st.session_state.DOWN) + 'nd & ' + str(st.session_state.DISTANCE))
-                if st.session_state.DOWN == 3:
+                elif st.session_state.DOWN == 3:
                     st.subheader(str(st.session_state.DOWN) + 'rd & ' + str(st.session_state.DISTANCE))
-                if st.session_state.DOWN == 4:
+                elif st.session_state.DOWN == 4:
                     st.subheader(str(st.session_state.DOWN) + 'th & ' + str(st.session_state.DISTANCE))
         
         self.field = FBField(hash = st.session_state.HASH, 
