@@ -75,6 +75,7 @@ class FBApp:
         '''
         Resets the game
         '''
+
         st.session_state.MINUTES = 15
         st.session_state.SECONDS = 0
         st.session_state.USER_SCORE = 0
@@ -100,13 +101,14 @@ class FBApp:
         '''
         Runs all functions to occur on rush button click
         '''
+
         self.update_position_rush()
         self.update_game()
         return
     
     def update_position_rush(self):
         
-        df = FootballDB().get_tRush()
+        df = self.tRush
         filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
         yards_gained = filter_df['yards_gained'].sample().iloc[0]
         dist_temp = st.session_state.DISTANCE - yards_gained
@@ -130,13 +132,14 @@ class FBApp:
         '''
         Runs all functions to occur on pass button click
         '''
+
         self.update_position_pass()
         self.update_game()
         return
     
     def update_position_pass(self):
 
-        df = FootballDB().get_tPass()
+        df = self.tPass
         filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
         yards_gained = filter_df['yards_gained'].sample().iloc[0]
         dist_temp = st.session_state.DISTANCE - yards_gained
@@ -161,6 +164,7 @@ class FBApp:
         '''
         Updates the game situation after play called
         '''
+
         runoff = -1*int(round(np.random.normal(20,5), 0))
         temp_sec = st.session_state.SECONDS + runoff
         if (st.session_state.MINUTES > 0) and (temp_sec < 0):
@@ -179,6 +183,7 @@ class FBApp:
         '''
         Initialize all dataframes from database
         '''
+
         self.tGame = self.db.get_tGame()
         self.tPass = self.db.get_tPass()
         self.tRush = self.db.get_tRush()
@@ -216,6 +221,7 @@ class FBApp:
         '''
         Remove some auto-generated stuff by streamlit
         '''
+
         hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
