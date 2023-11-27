@@ -62,7 +62,7 @@ class FBApp:
         with col2:
             st.button('PASS', on_click=self.pass_master_update)
 
-        df = FootballDB.get_tRush()
+        df = FootballDB().get_tRush()
         filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
 
         st.write(filter_df)
@@ -92,7 +92,7 @@ class FBApp:
         return
     
     def update_position_rush(self):
-        df = FootballDB.get_tRush()
+        df = FootballDB().get_tRush()
         filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
 
         return
