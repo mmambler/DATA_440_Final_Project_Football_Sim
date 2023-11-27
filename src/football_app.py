@@ -107,7 +107,7 @@ class FBApp:
     def update_position_rush(self):
         
         df = FootballDB().get_tRush()
-        filter_df = df[(df['fieldpos']==str(st.session_state.FIELD_POS)) & (df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
+        filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
         st.write(st.session_state.DOWN)
         st.write(st.session_state.DISTANCE)
         st.write(st.session_state.FIELD_POS)
