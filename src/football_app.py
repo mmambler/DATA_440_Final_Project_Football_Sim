@@ -66,6 +66,7 @@ class FBApp:
         #filter_df = df[df[('fieldpos'==dropdown.field_pos_dict[st.session_state.FIELD_POS]) & ('down'==st.session_state.DOWN) & ('distance'==st.session_state.DISTANCE)]]
 
         st.write(df)
+        st.write(st.session_state.FIELD_POS)
 
         return
     
