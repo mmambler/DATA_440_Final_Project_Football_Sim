@@ -58,9 +58,14 @@ class FBApp:
 
         _,_,_,col1, col2,_,_,_ = st.columns(8)
         with col1:
-            st.button('RUSH', on_click=self.update_game)
+            st.button('RUSH', on_click=self.master_update)
         with col2:
-            st.button('PASS', on_click=self.update_game)
+            st.button('PASS', on_click=self.master_update)
+
+        df = FootballDB.get_tRush()
+        filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
+
+        st.write(filter_df)
 
         return
     
@@ -78,6 +83,31 @@ class FBApp:
         st.session_state.FIELD_POS = -25
     
         return
+    
+    def rush_master_update(self):
+        '''
+        Runs all functions to occur on rush button click
+        '''
+        self.update_game()
+        return
+    
+    def update_position_rush(self):
+        df = FootballDB.get_tRush()
+        filter_df = df[df[('fieldpos'==st.session_state.FIELD_POS) and ('down'==st.session_state.DOWN) and ('distance'==st.session_state.DISTANCE)]]
+
+        return
+    
+    def pass_master_update(self):
+        '''
+        Runs all functions to occur on pass button click
+        '''
+        self.update_game()
+        return
+    
+    def update_position_pass(self):
+
+        return
+    
     
     def update_game(self):
         '''
