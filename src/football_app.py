@@ -98,7 +98,7 @@ class FBApp:
         df = FootballDB().get_tRush()
         filter_df = df[(df['fieldpos']==str(st.session_state.FIELD_POS)) & (df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
         yards_gained = filter_df['yards_gained'].sample().iloc[0]
-        st.write(yards_gained, 'YARDS GAINED')
+        st.write(str(yards_gained), 'YARDS GAINED')
         return
     
     def pass_master_update(self):
