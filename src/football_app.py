@@ -47,7 +47,7 @@ class FBApp:
         with col3:
             col_1, col_2 = st.columns(2)
             with col_2:
-                st.subheader(st.session_state.DOWN + ' & ' + str(st.session_state.DISTANCE))
+                st.subheader(str(st.session_state.DOWN) + ' & ' + str(st.session_state.DISTANCE))
         
         self.field = FBField(hash = st.session_state.HASH, 
                              field_pos=st.session_state.FIELD_POS, 
