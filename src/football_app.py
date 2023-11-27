@@ -102,12 +102,12 @@ class FBApp:
         rand_num = random.random()
         if rand_num < 0.22:
             st.session_state.CPU_SCORE += 7
-            st.session_state.RESULT = 'CPU SCORED A TD'
+            st.session_state.RESULT = 'CPU DRIVE RESULT: TD'
         if 0.22 <= rand_num < 0.38:
             st.session_state.CPU_SCORE += 3
-            st.session_state.RESULT = 'CPU SCORED A FG'
+            st.session_state.RESULT = 'CPU DRIVE RESULT: FG'
         else:
-            st.session_state.RESULT = 'CPU HAD TO PUNT'
+            st.session_state.RESULT = 'CPU DRIVE RESULT: PUNT'
         st.session_state.DOWN = 1
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
