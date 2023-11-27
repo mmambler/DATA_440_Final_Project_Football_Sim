@@ -69,6 +69,8 @@ class FBApp:
         with col2:
             st.button('PASS', on_click=self.pass_master_update)
 
+        st.write(self.tPass)
+
         return
     
     def reset_game(self):
