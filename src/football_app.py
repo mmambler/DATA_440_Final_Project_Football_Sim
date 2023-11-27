@@ -64,6 +64,10 @@ class FBApp:
 
         st.write('')
 
+        yards_result_placeholder = st.empty()
+
+        st.write('')
+
         _,_,_,col1, col2,_,_,_ = st.columns(8)
         with col1:
             st.button('RUSH', on_click=self.rush_master_update)
@@ -119,6 +123,7 @@ class FBApp:
                 st.session_state.DOWN += 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+                yards_result_placeholder = st.write('RUSHED FOR ' + str(yards_gained) + ' YARDS')
             else:
                 self.reset_drive()
         else:
@@ -126,6 +131,7 @@ class FBApp:
             st.session_state.DISTANCE = 10
             field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
             st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+            yards_result_placeholder = st.write('RUSHED FOR ' + str(yards_gained) + ' YARDS')
 
         return
     
