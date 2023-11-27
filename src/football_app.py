@@ -111,8 +111,8 @@ class FBApp:
         yards_gained = filter_df['yards_gained'].sample().iloc[0]
         dist_temp = st.session_state.DISTANCE - yards_gained
         if dist_temp > 0:
-            st.session_state.DISTANCE = dist_temp
             if st.session_state.DOWN < 4:
+                st.session_state.DISTANCE = dist_temp
                 st.session_state.DOWN += 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
