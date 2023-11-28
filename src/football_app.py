@@ -150,8 +150,8 @@ class FBApp:
                 self.reset_drive()
             else: 
                 st.session_state.DOWN = 1
-                st.session_state.DISTANCE = None
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
+                st.session_state.DISTANCE = 99 - field_pos_temp
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
 
@@ -196,8 +196,8 @@ class FBApp:
                 self.reset_drive()
             else: 
                 st.session_state.DOWN = 1
-                st.session_state.DISTANCE = None
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
+                st.session_state.DISTANCE = 99 - field_pos_temp
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
 
