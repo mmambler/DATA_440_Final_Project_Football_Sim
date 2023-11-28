@@ -70,14 +70,14 @@ class FBApp:
 
         st.write('')
 
-        if (st.session_state.RESULT != 'TOUCHDOWN!') & (st.session_state.RESULT != 'TURNOVER ON DOWNS'):
+        if (st.session_state.RESULT != '   TOUCHDOWN!') & (st.session_state.RESULT != 'TURNOVER ON DOWNS'):
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
                 st.button('RUSH', on_click=self.rush_master_update)
             with col2:
                 st.button('PASS', on_click=self.pass_master_update)
         
-        if (st.session_state.RESULT == 'TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
+        if (st.session_state.RESULT == '   TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
             _,_,_,col,_,_,_ = st.columns(7)
             with col:
                 st.button('Sim CPU Drive', on_click=self.reset_drive)
@@ -155,7 +155,7 @@ class FBApp:
                 st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
                 st.session_state.USER_SCORE += 7
-                st.session_state.RESULT = 'TOUCHDOWN!'
+                st.session_state.RESULT = '   TOUCHDOWN!'
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
                 st.session_state.FIELD_POS = -25
@@ -206,7 +206,7 @@ class FBApp:
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
-                st.session_state.RESULT = 'TOUCHDOWN!'
+                st.session_state.RESULT = '   TOUCHDOWN!'
                 st.session_state.USER_SCORE += 7
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
