@@ -64,8 +64,8 @@ class FBApp:
 
         st.write('')
 
-        if st.session_state.RESULT != 'TOUCHDOWN!':
-            _,col,_ = st.columns([3,3,1])
+        if st.session_state.RESULT == 'TOUCHDOWN!':
+            _,col,_ = st.columns([2.1,3,1])
             with col:
                 if st.session_state.RESULT != '':
                     st.subheader(st.session_state.RESULT)
