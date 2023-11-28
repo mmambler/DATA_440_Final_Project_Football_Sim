@@ -103,7 +103,7 @@ class FBApp:
         if rand_num < 0.22:
             st.session_state.CPU_SCORE += 7
             st.session_state.RESULT = 'CPU DRIVE RESULT: TD'
-        if 0.22 <= rand_num < 0.38:
+        elif 0.22 <= rand_num < 0.38:
             st.session_state.CPU_SCORE += 3
             st.session_state.RESULT = 'CPU DRIVE RESULT: FG'
         else:
@@ -137,7 +137,7 @@ class FBApp:
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
             else:
-                self.reset_drive()
+                st.button('Sim CPU Drive', on_click=self.reset_drive)
         else:
             if (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) <= 89:
                 st.session_state.DOWN = 1
@@ -147,7 +147,8 @@ class FBApp:
                 st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
                 st.session_state.RESULT = 'TOUCHDOWN!'
-                self.reset_drive()
+                st.session_state.USER_SCORE += 7
+                st.button('Sim CPU Drive', on_click=self.reset_drive)
             else: 
                 st.session_state.DOWN = 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
@@ -183,7 +184,8 @@ class FBApp:
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
             else:
-                self.reset_drive()
+                st.button('Sim CPU Drive', on_click=self.reset_drive)
+                
         else:
             if (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) <= 89:
                 st.session_state.DOWN = 1
@@ -193,7 +195,8 @@ class FBApp:
                 st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
                 st.session_state.RESULT = 'TOUCHDOWN!'
-                self.reset_drive()
+                st.session_state.USER_SCORE += 7
+                st.button('Sim CPU Drive', on_click=self.reset_drive)
             else: 
                 st.session_state.DOWN = 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
