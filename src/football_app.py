@@ -63,21 +63,28 @@ class FBApp:
         st.pyplot(self.field.fig)
 
         st.write('')
-        _,col,_ = st.columns([1.7,3,1])
-        with col:
-            if st.session_state.RESULT != '':
-                st.subheader(st.session_state.RESULT)
+
+        if st.session_state.RESULT != 'TOUCHDOWN!':
+            _,col,_ = st.columns([2.1,3,1])
+            with col:
+                if st.session_state.RESULT != '':
+                    st.subheader(st.session_state.RESULT)
+        else:
+            _,col,_ = st.columns([1.7,3,1])
+            with col:
+                if st.session_state.RESULT != '':
+                    st.subheader(st.session_state.RESULT)
 
         st.write('')
 
-        if (st.session_state.RESULT != '   TOUCHDOWN!') & (st.session_state.RESULT != 'TURNOVER ON DOWNS'):
+        if (st.session_state.RESULT != 'TOUCHDOWN!') & (st.session_state.RESULT != 'TURNOVER ON DOWNS'):
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
                 st.button('RUSH', on_click=self.rush_master_update)
             with col2:
                 st.button('PASS', on_click=self.pass_master_update)
         
-        if (st.session_state.RESULT == '   TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
+        if (st.session_state.RESULT == 'TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
             _,_,_,col,_,_,_ = st.columns(7)
             with col:
                 st.button('Sim CPU Drive', on_click=self.reset_drive)
@@ -104,6 +111,26 @@ class FBApp:
         '''
         Resets the drive
         '''
+        # CPU drive clock runoff
+        runoff = -1*int(round(np.random.normal(180,30), 0))
+        temp_sec = st.session_state.SECONDS + runoff
+        if temp_sec < 0:
+            while (st.session_state.MINUTES > 0) and (temp_sec < 0):
+                st.session_state.MINUTES = st.session_state.MINUTES-1
+                st.session_state.SECONDS = 60 + temp_sec
+                temp_sec += 60
+            while (st.session_state.MINUTES == 0) and (temp_sec < 0):
+                st.session_state.MINUTES = 15
+                st.session_state.SECONDS = 0
+                st.session_state.QUARTER += 1
+                while (st.session_state.MINUTES > 0) and (temp_sec < 0):
+                    st.session_state.MINUTES = st.session_state.MINUTES-1
+                    st.session_state.SECONDS = 60 + temp_sec
+                    temp_sec += 60
+        else:
+            st.session_state.SECONDS = temp_sec
+
+        #CPU drive result
         rand_num = random.random()
         if rand_num < 0.22:
             st.session_state.CPU_SCORE += 7
@@ -113,6 +140,8 @@ class FBApp:
             st.session_state.RESULT = 'CPU DRIVE RESULT: FG'
         else:
             st.session_state.RESULT = 'CPU DRIVE RESULT: PUNT'
+        
+        # Reset session state
         st.session_state.DOWN = 1
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
@@ -155,7 +184,7 @@ class FBApp:
                 st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
                 st.session_state.USER_SCORE += 7
-                st.session_state.RESULT = '   TOUCHDOWN!'
+                st.session_state.RESULT = 'TOUCHDOWN!'
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
                 st.session_state.FIELD_POS = -25
@@ -178,6 +207,7 @@ class FBApp:
         return
     
     def update_position_pass(self):
+
         rand_num = random.random()
         if rand_num <= 0.65:
             df = self.tPass
@@ -206,7 +236,7 @@ class FBApp:
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
-                st.session_state.RESULT = '   TOUCHDOWN!'
+                st.session_state.RESULT = 'TOUCHDOWN!'
                 st.session_state.USER_SCORE += 7
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
