@@ -88,7 +88,7 @@ class FBApp:
             with col1:
                 st.button('PUNT')
             with col2:
-                st.button('FG')
+                st.button('TRY FG')
         
         if (st.session_state.RESULT == 'TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
             _,_,_,col,_,_,_ = st.columns(7)
