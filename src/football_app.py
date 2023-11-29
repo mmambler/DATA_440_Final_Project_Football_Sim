@@ -163,6 +163,98 @@ class FBApp:
     
     def fg_update(self):
 
+        rand_num = random.random()
+
+        if dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 97:
+            st.session_state.USER_SCORE += 3
+            st.session_state.RESULT = 'FG IS GOOD!'
+            self.update_game()
+
+        elif 97 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 92:
+            if rand_num < 0.99:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+
+        elif 92 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 87:
+            if rand_num < 0.96:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        elif 87 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 82:
+            if rand_num < 0.94:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        elif 82 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 77:
+            if rand_num < 0.88:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        elif 77 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 72:
+            if rand_num < 0.79:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        elif 72 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 67:
+            if rand_num < 0.71:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        elif 67 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 62:
+            if rand_num < 0.63:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        elif 62 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 57:
+            if rand_num < 0.52:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+
+        elif 57 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 52:
+            if rand_num < 0.36:
+                st.session_state.USER_SCORE += 3
+                st.session_state.RESULT = 'FG IS GOOD!'
+                self.update_game()
+            else:
+                st.session_state.RESULT = 'FG MISSED'
+                self.update_game()
+        
+        else:
+            st.session_state.RESULT = 'FG MISSED'
+            self.update_game()
+
         return
     
     def rush_master_update(self):
