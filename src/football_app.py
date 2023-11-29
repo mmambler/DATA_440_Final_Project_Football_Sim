@@ -77,7 +77,7 @@ class FBApp:
 
         st.write('')
 
-        if st.session_state.RESULT not in dropdown.drive_end_list:
+        if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
                 st.button('RUSH', on_click=self.rush_master_update)
@@ -90,10 +90,16 @@ class FBApp:
             with col2:
                 st.button('TRY FG', on_click=self.fg_update)
         
-        if st.session_state.RESULT in dropdown.drive_end_list:
+        if st.session_state.RESULT in dropdown.drive_end_list_adv:
             _,_,_,col,_,_,_ = st.columns(7)
             with col:
-                st.button('Sim CPU Drive', on_click=self.reset_drive)
+                st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
+        
+        if st.session_state.RESULT in dropdown.drive_end_list_disadv:
+            _,_,_,col,_,_,_ = st.columns(7)
+            with col:
+                st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
+
         return
     
     def reset_game(self):
@@ -113,9 +119,9 @@ class FBApp:
     
         return
     
-    def reset_drive(self):
+    def reset_drive_adv(self):
         '''
-        Resets the drive
+        Resets the drive after advantageous or neutral outcome
         '''
         # CPU drive clock runoff
         runoff = -1*int(round(np.random.normal(180,30), 0))
@@ -154,7 +160,51 @@ class FBApp:
     
         return
     
+    def reset_drive_disadv(self):
+        '''
+        Resets the drive after disadvantageous outcome
+        '''
+        # CPU drive clock runoff
+        runoff = -1*int(round(np.random.normal(180,30), 0))
+        temp_sec = st.session_state.SECONDS + runoff
+        if temp_sec < 0:
+            while (st.session_state.MINUTES > 0) and (temp_sec < 0):
+                st.session_state.MINUTES = st.session_state.MINUTES-1
+                st.session_state.SECONDS = 60 + temp_sec
+                temp_sec += 60
+            while (st.session_state.MINUTES == 0) and (temp_sec < 0):
+                st.session_state.MINUTES = 15
+                st.session_state.SECONDS = 0
+                st.session_state.QUARTER += 1
+                while (st.session_state.MINUTES > 0) and (temp_sec < 0):
+                    st.session_state.MINUTES = st.session_state.MINUTES-1
+                    st.session_state.SECONDS = 60 + temp_sec
+                    temp_sec += 60
+        else:
+            st.session_state.SECONDS = temp_sec
+
+        #CPU drive result
+        rand_num = random.random()
+        if rand_num < 0.37:
+            st.session_state.CPU_SCORE += 7
+            st.session_state.RESULT = 'CPU DRIVE RESULT: TD'
+        elif 0.22 <= rand_num < 0.53:
+            st.session_state.CPU_SCORE += 3
+            st.session_state.RESULT = 'CPU DRIVE RESULT: FG'
+        else:
+            st.session_state.RESULT = 'CPU DRIVE RESULT: PUNT'
+        
+        # Reset session state
+        st.session_state.DOWN = 1
+        st.session_state.DISTANCE = 10
+        st.session_state.FIELD_POS = -25
+    
+        return
+    
     def punt_update(self):
+        '''
+        Updates game state following a user punt
+        '''
 
         st.session_state.RESULT = 'THE USER PUNTED'
         self.update_game()
@@ -162,6 +212,9 @@ class FBApp:
         return
     
     def fg_update(self):
+        '''
+        Updates game state after user field goal
+        '''
 
         rand_num = random.random()
 
