@@ -83,6 +83,12 @@ class FBApp:
                 st.button('RUSH', on_click=self.rush_master_update)
             with col2:
                 st.button('PASS', on_click=self.pass_master_update)
+            
+            _,_,_,col1, col2,_,_,_ = st.columns(8)
+            with col1:
+                st.button('PUNT')
+            with col2:
+                st.button('KICK FG')
         
         if (st.session_state.RESULT == 'TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
             _,_,_,col,_,_,_ = st.columns(7)
@@ -307,6 +313,13 @@ class FBApp:
             st.session_state.HASH = 'Center'
         if 'RESULT' not in st.session_state:
             st.session_state.RESULT = ''
+        if 'TOD_BOOL' not in st.session_state:
+            st.session_state.TOD_BOOL = False
+        if 'PK_BOOL' not in st.session_state:
+            st.session_state.PK_BOOL = False
+        
+        st.session_state.TOD_BOOL = False
+        st.session_state.PK_BOOL = False
 
         return
     
