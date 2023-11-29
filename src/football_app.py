@@ -77,7 +77,7 @@ class FBApp:
 
         st.write('')
 
-        if (st.session_state.RESULT != 'TOUCHDOWN!') & (st.session_state.RESULT != 'TURNOVER ON DOWNS'):
+        if st.session_state.RESULT not in dropdown.drive_end_list:
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
                 st.button('RUSH', on_click=self.rush_master_update)
@@ -86,11 +86,11 @@ class FBApp:
             
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
-                st.button('PUNT')
+                st.button('PUNT', on_click=self.punt_update)
             with col2:
-                st.button('TRY FG')
+                st.button('TRY FG', on_click=self.fg_update)
         
-        if (st.session_state.RESULT == 'TOUCHDOWN!') | (st.session_state.RESULT == 'TURNOVER ON DOWNS'):
+        if st.session_state.RESULT in dropdown.drive_end_list:
             _,_,_,col,_,_,_ = st.columns(7)
             with col:
                 st.button('Sim CPU Drive', on_click=self.reset_drive)
@@ -152,6 +152,17 @@ class FBApp:
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
     
+        return
+    
+    def punt_update(self):
+
+        st.session_state.RESULT = 'THE USER PUNTED'
+        self.update_game()
+        
+        return
+    
+    def fg_update(self):
+
         return
     
     def rush_master_update(self):
