@@ -34,7 +34,10 @@ class FBApp:
         with col1:
             st.subheader('USER: ' + str(st.session_state.USER_SCORE))
         with col2:
-            st.subheader('Play Clock: ' + str(st.session_state.MINUTES) + ':' + f"{st.session_state.SECONDS:02}")
+            if st.session_state.QUARTER <= 4:
+                st.subheader('Play Clock: ' + str(st.session_state.MINUTES) + ':' + f"{st.session_state.SECONDS:02}")
+            else:
+                st.subheader('Play Clock: 0:00')
         with col3:
             col_1, col_2 = st.columns(2)
             with col_2:
@@ -44,7 +47,10 @@ class FBApp:
         with col1:
             st.button('RESTART GAME', on_click=self.reset_game)
         with col2:
-            st.subheader('Quarter: ' + str(st.session_state.QUARTER))
+            if st.session_state.QUARTER <= 4:
+                st.subheader('Quarter: ' + str(st.session_state.QUARTER))
+            else:
+                st.subheader('FINAL')
         with col3:
             col_1, col_2 = st.columns(2)
             with col_2:
@@ -77,34 +83,46 @@ class FBApp:
 
         st.write('')
 
-        if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
-            _,_,_,col1, col2,_,_,_ = st.columns(8)
-            with col1:
-                st.button('RUSH', on_click=self.rush_master_update)
-            with col2:
-                st.button('PASS', on_click=self.pass_master_update)
+        if st.session_state.QUARTER <= 4:
+            if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
+                _,_,_,col1, col2,_,_,_ = st.columns(8)
+                with col1:
+                    st.button('RUSH', on_click=self.rush_master_update)
+                with col2:
+                    st.button('PASS', on_click=self.pass_master_update)
+                
+                _,_,_,col1, col2,_,_,_ = st.columns(8)
+                with col1:
+                    st.button('PUNT', on_click=self.punt_update)
+                with col2:
+                    st.button('TRY FG', on_click=self.fg_update)
             
-            _,_,_,col1, col2,_,_,_ = st.columns(8)
-            with col1:
-                st.button('PUNT', on_click=self.punt_update)
-            with col2:
-                st.button('TRY FG', on_click=self.fg_update)
-        
-        if st.session_state.RESULT in dropdown.drive_end_list_adv:
-            _,_,_,col,_,_,_ = st.columns(7)
+            if st.session_state.RESULT in dropdown.drive_end_list_adv:
+                _,_,_,col,_,_,_ = st.columns(7)
+                with col:
+                    st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
+            
+            if st.session_state.RESULT in dropdown.drive_end_list_disadv:
+                _,_,_,col,_,_,_ = st.columns(7)
+                with col:
+                    st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
+        else:
+            _,col,_ = st.columns(3)
             with col:
-                st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
-        
-        if st.session_state.RESULT in dropdown.drive_end_list_disadv:
-            _,_,_,col,_,_,_ = st.columns(7)
+                st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + ' CPU: ' + str(st.session_state.CPU_SCORE))
+
+            _,_,col,_,_ = st.columns(5)
             with col:
-                st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
+                if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
+                    st.subheader('YOU WIN!')
+                else:
+                    st.subheader('YOU LOSE')
 
         return
     
     def reset_game(self):
         '''
-        Resets the game
+        Resets the game to the initial state
         '''
 
         st.session_state.MINUTES = 15
@@ -121,8 +139,9 @@ class FBApp:
     
     def reset_drive_adv(self):
         '''
-        Resets the drive after advantageous or neutral outcome
+        Resets the drive after advantageous or neutral outcome (TD, FG, Punt)
         '''
+
         # CPU drive clock runoff
         runoff = -1*int(round(np.random.normal(180,30), 0))
         temp_sec = st.session_state.SECONDS + runoff
@@ -162,8 +181,12 @@ class FBApp:
     
     def reset_drive_disadv(self):
         '''
-        Resets the drive after disadvantageous outcome
+        Resets the drive after disadvantageous outcome (TOD, Interception, Fumble, Missed FG)
+
+        This function is the same as for advantageous/neutral outcomes
+        except the likelihood of a CPU score is increased by 15%.
         '''
+
         # CPU drive clock runoff
         runoff = -1*int(round(np.random.normal(180,30), 0))
         temp_sec = st.session_state.SECONDS + runoff
