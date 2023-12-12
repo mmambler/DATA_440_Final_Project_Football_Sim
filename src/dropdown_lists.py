@@ -36,4 +36,4 @@ field_pos_dict = dict(zip(field_pos,field_pos_non_neg))
 field_pos_dict_reverse = dict(zip(field_pos_non_neg,field_pos))
 
 drive_end_list_adv = ['TOUCHDOWN!','THE USER PUNTED','FG IS GOOD!']
-drive_end_list_disadv = ['TURNOVER ON DOWNS','FG MISSED']
+drive_end_list_disadv = ['TURNOVER ON DOWNS','FG MISSED','INTERCEPTION','FUMBLE']

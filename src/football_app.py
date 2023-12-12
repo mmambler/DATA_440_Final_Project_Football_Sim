@@ -346,41 +346,49 @@ class FBApp:
     
     def update_position_rush(self):
         
-        df = self.tRush
-        filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
-        yards_gained = filter_df['yards_gained'].sample().iloc[0]
-        dist_temp = st.session_state.DISTANCE - yards_gained
-        if dist_temp > 0:
-            if st.session_state.DOWN < 4:
-                st.session_state.DISTANCE = dist_temp
-                st.session_state.DOWN += 1
-                field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
-                st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
-                st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
-            else:
-                st.session_state.RESULT = 'TURNOVER ON DOWNS'
-                st.session_state.DOWN = 1
-                st.session_state.DISTANCE = 10
-                st.session_state.FIELD_POS = -25
+        rand_num = random.random()
+        if rand_num <= 0.01:
+            # Fumble
+            st.session_state.RESULT = 'FUMBLE'
+            st.session_state.DOWN = 1
+            st.session_state.DISTANCE = 10
+            st.session_state.FIELD_POS = -25
         else:
-            if (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) <= 89:
-                st.session_state.DOWN = 1
-                st.session_state.DISTANCE = 10
-                field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
-                st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
-                st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
-            elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
-                st.session_state.USER_SCORE += 7
-                st.session_state.RESULT = 'TOUCHDOWN!'
-                st.session_state.DOWN = 1
-                st.session_state.DISTANCE = 10
-                st.session_state.FIELD_POS = -25
-            else: 
-                st.session_state.DOWN = 1
-                field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
-                st.session_state.DISTANCE = 100 - field_pos_temp
-                st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
-                st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
+            df = self.tRush
+            filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
+            yards_gained = filter_df['yards_gained'].sample().iloc[0]
+            dist_temp = st.session_state.DISTANCE - yards_gained
+            if dist_temp > 0:
+                if st.session_state.DOWN < 4:
+                    st.session_state.DISTANCE = dist_temp
+                    st.session_state.DOWN += 1
+                    field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
+                    st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+                    st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
+                else:
+                    st.session_state.RESULT = 'TURNOVER ON DOWNS'
+                    st.session_state.DOWN = 1
+                    st.session_state.DISTANCE = 10
+                    st.session_state.FIELD_POS = -25
+            else:
+                if (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) <= 89:
+                    st.session_state.DOWN = 1
+                    st.session_state.DISTANCE = 10
+                    field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
+                    st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+                    st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
+                elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
+                    st.session_state.USER_SCORE += 7
+                    st.session_state.RESULT = 'TOUCHDOWN!'
+                    st.session_state.DOWN = 1
+                    st.session_state.DISTANCE = 10
+                    st.session_state.FIELD_POS = -25
+                else: 
+                    st.session_state.DOWN = 1
+                    field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
+                    st.session_state.DISTANCE = 100 - field_pos_temp
+                    st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
+                    st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
 
         return
     
@@ -396,12 +404,35 @@ class FBApp:
     def update_position_pass(self):
 
         rand_num = random.random()
-        if rand_num <= 0.65:
+        if rand_num <= 0.01:
+            # Fumble
+            st.session_state.RESULT = 'FUMBLE'
+            st.session_state.DOWN = 1
+            st.session_state.DISTANCE = 10
+            st.session_state.FIELD_POS = -25
+
+        elif rand_num <= 0.04:
+            # Interception
+            st.session_state.RESULT = 'INTERCEPTION'
+            st.session_state.DOWN = 1
+            st.session_state.DISTANCE = 10
+            st.session_state.FIELD_POS = -25
+
+        elif rand_num <= 0.11:
+            # Sack
+            yards_gained = -1*np.random.normal(7,2)
+            st.session_state.SACK_BOOL = True
+
+        elif rand_num <= 0.65:
+            # Completed Pass
             df = self.tPass
             filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
             yards_gained = filter_df['yards_gained'].sample().iloc[0]
+
         else:
+            # Incomplete Pass
             yards_gained = 0
+
         dist_temp = st.session_state.DISTANCE - yards_gained
         if dist_temp > 0:
             if st.session_state.DOWN < 4:
@@ -409,7 +440,11 @@ class FBApp:
                 st.session_state.DOWN += 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
-                st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
+                if st.session_state.SACK_BOOL:
+                    st.session_state.RESULT = 'SACKED FOR ' + str(yards_gained) + ' YARDS'
+                    st.session_state.SACK_BOOL = False
+                else:
+                    st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
             else:
                 st.session_state.RESULT = 'TURNOVER ON DOWNS'
                 st.session_state.DOWN = 1
@@ -495,12 +530,9 @@ class FBApp:
         if 'RESULT' not in st.session_state:
             st.session_state.RESULT = ''
         if 'TOD_BOOL' not in st.session_state:
-            st.session_state.TOD_BOOL = False
-        if 'PK_BOOL' not in st.session_state:
-            st.session_state.PK_BOOL = False
+            st.session_state.SACK_BOOL = False
         
-        st.session_state.TOD_BOOL = False
-        st.session_state.PK_BOOL = False
+        st.session_state.SACK_BOOL = False
 
         return
     
