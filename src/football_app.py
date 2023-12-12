@@ -404,7 +404,7 @@ class FBApp:
     
     def update_position_pass(self):
 
-        rand_num = 0.01 #random.random()
+        rand_num = 0.03 #random.random()
         if rand_num <= 0.01:
             # Fumble
             st.session_state.RESULT = 'FUMBLE'
