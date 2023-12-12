@@ -420,7 +420,7 @@ class FBApp:
 
         elif rand_num <= 0.11:
             # Sack
-            yards_gained = -1*np.random.normal(7,2)
+            yards_gained = -1*int(round(np.random.normal(7,2),0))
             st.session_state.SACK_BOOL = True
 
         elif rand_num <= 0.65:
