@@ -107,14 +107,16 @@ class FBApp:
                 with col:
                     st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
         else:
-            _,col,_ = st.columns(3)
+            _,col,_ = st.columns(1,4,1)
             with col:
-                st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + ' CPU: ' + str(st.session_state.CPU_SCORE))
+                st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
 
             _,_,col,_,_ = st.columns(5)
             with col:
                 if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
                     st.subheader('YOU WIN!')
+                elif st.session_state.USER_SCORE == st.session_state.CPU_SCORE:
+                    st.subheader('YOU TIE!')
                 else:
                     st.subheader('YOU LOSE')
 
@@ -129,7 +131,7 @@ class FBApp:
         st.session_state.SECONDS = 0
         st.session_state.USER_SCORE = 0
         st.session_state.CPU_SCORE = 0
-        st.session_state.QUARTER = 1
+        st.session_state.QUARTER = 4
         st.session_state.DOWN = 1
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
