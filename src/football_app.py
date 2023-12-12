@@ -131,7 +131,7 @@ class FBApp:
         st.session_state.SECONDS = 0
         st.session_state.USER_SCORE = 0
         st.session_state.CPU_SCORE = 0
-        st.session_state.QUARTER = 4
+        st.session_state.QUARTER = 0
         st.session_state.DOWN = 1
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
