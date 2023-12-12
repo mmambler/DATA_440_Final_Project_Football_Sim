@@ -107,7 +107,7 @@ class FBApp:
                 with col:
                     st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
         else:
-            _,col,_ = st.columns([1,3,1])
+            _,col,_ = st.columns([2,3,1])
             with col:
                 st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
 
