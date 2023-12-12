@@ -25,11 +25,11 @@ https://gridiron-guru-football-sim.streamlit.app
 - Increased likelihood of CPU scoring after a Turnover on Downs or Missed Field Goal
 
 ## Functionality yet to be added
-- AT CURRENT STATE THE GAME NEVER ENDS! This is important to know for testing purposes. It will continue on to quarter 5, quarter 6, and so on.
-- Interceptions
-- Fumbles
-- Sacks
+- ~~AT CURRENT STATE THE GAME NEVER ENDS! This is important to know for testing purposes. It will continue on to quarter 5, quarter 6, and so on.~~
+- ~~Interceptions~~
+- ~~Fumbles~~
+- ~~Sacks~~
 - Halftime ends the current drive
 - Coin Toss/User deciding whether to kick or receive at game start
 - Align result messages to always be centered
-- Display Final Score at game end
+- ~~Display Final Score at game end~~
