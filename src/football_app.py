@@ -353,6 +353,7 @@ class FBApp:
             st.session_state.DOWN = 1
             st.session_state.DISTANCE = 10
             st.session_state.FIELD_POS = -25
+            return
         else:
             df = self.tRush
             filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
@@ -410,6 +411,7 @@ class FBApp:
             st.session_state.DOWN = 1
             st.session_state.DISTANCE = 10
             st.session_state.FIELD_POS = -25
+            return
 
         elif rand_num <= 0.04:
             # Interception
@@ -417,6 +419,7 @@ class FBApp:
             st.session_state.DOWN = 1
             st.session_state.DISTANCE = 10
             st.session_state.FIELD_POS = -25
+            return
 
         elif rand_num <= 0.11:
             # Sack
