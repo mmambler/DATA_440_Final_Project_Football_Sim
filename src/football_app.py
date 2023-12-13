@@ -354,6 +354,7 @@ class FBApp:
             st.session_state.DISTANCE = 10
             st.session_state.FIELD_POS = -25
             return
+        
         else:
             df = self.tRush
             filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
@@ -404,7 +405,7 @@ class FBApp:
     
     def update_position_pass(self):
 
-        rand_num = 0.10 #random.random()
+        rand_num = random.random()
         if rand_num <= 0.01:
             # Fumble
             st.session_state.RESULT = 'FUMBLE'
