@@ -83,42 +83,90 @@ class FBApp:
 
         st.write('')
 
-        if st.session_state.QUARTER <= 4:
-            if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
-                _,_,_,col1, col2,_,_,_ = st.columns(8)
-                with col1:
-                    st.button('RUSH', on_click=self.rush_master_update)
-                with col2:
-                    st.button('PASS', on_click=self.pass_master_update)
+        if st.session_state.GAME_START:
+            _,_,_,col1, col2,_,_,_ = st.columns(8)
+            with col1:
+                st.button('KICK', on_click=self.choose_kick)
+            with col2:
+                st.button('RECEIVE', on_click=self.choose_receive)
+
+            st.session_state.GAME_START = False
+
+        else:
+            if st.session_state.QUARTER <= 4:
+                self.display_playcall_choices()
+            else:
+                _,col,_ = st.columns([1.4,3,1])
+                with col:
+                    st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
+
+                _,_,col,_,_ = st.columns(5)
+                with col:
+                    if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
+                        st.subheader('YOU WIN!')
+                    elif st.session_state.USER_SCORE == st.session_state.CPU_SCORE:
+                        st.subheader('YOU TIE!')
+                    else:
+                        st.subheader('YOU LOSE')
+        
+        if st.session_state.RECEIVE_BOOL:
+            self.display_playcall_choices()
+            st.session_state.RECEIVE_BOOL = False
+
+        elif st.session_state.KICK_BOOL:
+            _,_,_,col,_,_,_ = st.columns(7)
+            with col:
+                st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
+            st.session_state.KICK_BOOL = False
+
+
+        return
+    
+    def choose_receive(self):
+        '''
+        Sets boolean value if player decided to receive at game start
+        '''
+
+        st.session_state.RECEIVE_BOOL = True
+
+        return
+    
+    def choose_kick(self):
+        '''
+        Sets boolean value if player decided to kick at game start
+        '''
+
+        st.session_state.KICK_BOOL = True
+
+        return
+    
+    def display_playcall_choices(self):
+        '''
+        Displays the buttons necessary for calling a play and executes the necessary functions associated with each
+        '''
+
+        if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
+            _,_,_,col1, col2,_,_,_ = st.columns(8)
+            with col1:
+                st.button('RUSH', on_click=self.rush_master_update)
+            with col2:
+                st.button('PASS', on_click=self.pass_master_update)
+                    
+            _,_,_,col1, col2,_,_,_ = st.columns(8)
+            with col1:
+                st.button('PUNT', on_click=self.punt_update)
+            with col2:
+                st.button('TRY FG', on_click=self.fg_update)
                 
-                _,_,_,col1, col2,_,_,_ = st.columns(8)
-                with col1:
-                    st.button('PUNT', on_click=self.punt_update)
-                with col2:
-                    st.button('TRY FG', on_click=self.fg_update)
-            
             if st.session_state.RESULT in dropdown.drive_end_list_adv:
                 _,_,_,col,_,_,_ = st.columns(7)
                 with col:
                     st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
-            
+                
             if st.session_state.RESULT in dropdown.drive_end_list_disadv:
                 _,_,_,col,_,_,_ = st.columns(7)
                 with col:
                     st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
-        else:
-            _,col,_ = st.columns([1.4,3,1])
-            with col:
-                st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
-
-            _,_,col,_,_ = st.columns(5)
-            with col:
-                if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
-                    st.subheader('YOU WIN!')
-                elif st.session_state.USER_SCORE == st.session_state.CPU_SCORE:
-                    st.subheader('YOU TIE!')
-                else:
-                    st.subheader('YOU LOSE')
 
         return
     
@@ -136,6 +184,7 @@ class FBApp:
         st.session_state.DISTANCE = 10
         st.session_state.FIELD_POS = -25
         st.session_state.RESULT = ''
+        st.session_state.GAME_START = True
     
         return
     
@@ -535,6 +584,12 @@ class FBApp:
             st.session_state.RESULT = ''
         if 'TOD_BOOL' not in st.session_state:
             st.session_state.SACK_BOOL = False
+        if 'GAME_START' not in st.session_state:
+            st.session_state.GAME_START = True
+        if 'RECEIVE_BOOL' not in st.session_state:
+            st.session_state.RECEIVE_BOOL = False
+        if 'KICK_BOOL' not in st.session_state:
+            st.session_state.KICK_BOOL = False
         
         st.session_state.SACK_BOOL = False
 
