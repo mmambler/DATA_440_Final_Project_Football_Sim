@@ -85,14 +85,14 @@ class FBApp:
         st.write('')
 
         if st.session_state.GAME_START:
-            _,_,_,col1, col2,_,_,_ = st.columns(8)
+            _,_,_,col1, col2,_,_,_ = st.columns([1,1,1,1,1.5,1,1,1])
             with col1:
                 if st.button('KICK'):
                     st.rerun()
             with col2:
                 if st.button('RECEIVE'):
                     st.session_state.GAME_START = False
-                    #st.rerun()
+                    st.rerun()
 
         else:
             if st.session_state.QUARTER <= 4:
