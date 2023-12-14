@@ -34,7 +34,9 @@ class FBApp:
         with col1:
             st.subheader('USER: ' + str(st.session_state.USER_SCORE))
         with col2:
-            if st.session_state.QUARTER <= 4:
+            if (st.session_state.PREV_QUART == 2) and (st.session_state.QUARTER == 3):
+                st.subheader('Play Clock: 15:00')
+            elif st.session_state.QUARTER <= 4:
                 st.subheader('Play Clock: ' + str(st.session_state.MINUTES) + ':' + f"{st.session_state.SECONDS:02}")
             else:
                 st.subheader('Play Clock: 0:00')
