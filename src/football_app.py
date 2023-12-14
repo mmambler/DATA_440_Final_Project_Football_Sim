@@ -79,10 +79,15 @@ class FBApp:
                 if st.session_state.RESULT != '':
                     st.subheader(st.session_state.RESULT)
         else:
-            _,col,_ = st.columns([2,3,1])
-            with col:
-                if st.session_state.RESULT != '':
-                    st.subheader(st.session_state.RESULT)
+            if st.session_state.RESULT != '':
+                if (st.session_state.RESULT == 'FG MISSED') or (st.session_state.RESULT == 'FG IS GOOD!'):
+                    _,col,_ = st.columns([2.5,3,1])
+                    with col:
+                        st.subheader(st.session_state.RESULT)
+                else:
+                    _,col,_ = st.columns([2,3,1])
+                    with col:
+                        st.subheader(st.session_state.RESULT)
 
         st.write('')
 
