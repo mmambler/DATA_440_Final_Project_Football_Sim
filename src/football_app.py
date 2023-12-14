@@ -90,28 +90,52 @@ class FBApp:
                 if st.button('KICK'):
                     self.reset_drive_adv()
                     st.session_state.GAME_START = False
+                    st.session_state.RECEIVE_BOOL = False
                     st.rerun()
             with col2:
                 if st.button('RECEIVE'):
                     st.session_state.GAME_START = False
+                    st.session_state.RECEIVE_BOOL = True
                     st.rerun()
 
         else:
-            if st.session_state.QUARTER <= 4:
-                self.display_playcall_choices()
-            else:
-                _,col,_ = st.columns([1.4,3,1])
-                with col:
-                    st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
+            if (st.session_state.PREV_QUART == 2) and (st.session_state.QUARTER == 3):
 
-                _,_,col,_,_ = st.columns(5)
+                st.session_state.PREV_QUART = 3
+                st.session_state.MINUTES = 15
+                st.session_state.SECONDS = 0
+                st.session_state.DOWN = 1
+                st.session_state.DISTANCE = 10
+                st.session_state.FIELD_POS = -25
+
+                _,col,_ = st.columns([2,3,1])
                 with col:
-                    if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
-                        st.subheader('YOU WIN!')
-                    elif st.session_state.USER_SCORE == st.session_state.CPU_SCORE:
-                        st.subheader('YOU TIE!')
-                    else:
-                        st.subheader('YOU LOSE')
+                    st.subheader('HALFTIME')
+                _,_,_,col,_,_,_ = st.columns(7)
+                with col:
+                    if st.button('Begin 2nd Half'):
+                        if st.session_state.RECEIVE_BOOL:
+                            self.reset_drive_adv()
+                            st.rerun()
+                        else:
+                            st.rerun()
+                
+            else:
+                if st.session_state.QUARTER <= 4:
+                    self.display_playcall_choices()
+                else:
+                    _,col,_ = st.columns([1.4,3,1])
+                    with col:
+                        st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
+
+                    _,_,col,_,_ = st.columns(5)
+                    with col:
+                        if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
+                            st.subheader('YOU WIN!')
+                        elif st.session_state.USER_SCORE == st.session_state.CPU_SCORE:
+                            st.subheader('YOU TIE!')
+                        else:
+                            st.subheader('YOU LOSE')
 
         return
     
@@ -160,6 +184,8 @@ class FBApp:
         st.session_state.FIELD_POS = -25
         st.session_state.RESULT = ''
         st.session_state.GAME_START = True
+        st.session_state.PREV_QUART = 1
+        st.session_state.RECEIVE_BOOL = False
     
         return
     
@@ -179,6 +205,7 @@ class FBApp:
             while (st.session_state.MINUTES == 0) and (temp_sec < 0):
                 st.session_state.MINUTES = 15
                 st.session_state.SECONDS = 0
+                st.session_state.PREV_QUART = st.session_state.QUARTER
                 st.session_state.QUARTER += 1
                 while (st.session_state.MINUTES > 0) and (temp_sec < 0):
                     st.session_state.MINUTES = st.session_state.MINUTES-1
@@ -224,6 +251,7 @@ class FBApp:
             while (st.session_state.MINUTES == 0) and (temp_sec < 0):
                 st.session_state.MINUTES = 15
                 st.session_state.SECONDS = 0
+                st.session_state.PREV_QUART = st.session_state.QUARTER
                 st.session_state.QUARTER += 1
                 while (st.session_state.MINUTES > 0) and (temp_sec < 0):
                     st.session_state.MINUTES = st.session_state.MINUTES-1
@@ -514,7 +542,8 @@ class FBApp:
         elif (st.session_state.MINUTES == 0) and (temp_sec < 0):
             st.session_state.MINUTES = 15
             st.session_state.SECONDS = 0
-            st.session_state.QUARTER = st.session_state.QUARTER + 1
+            st.session_state.PREV_QUART = st.session_state.QUARTER
+            st.session_state.QUARTER += 1
         else:
             st.session_state.SECONDS = temp_sec
         
@@ -561,6 +590,10 @@ class FBApp:
             st.session_state.SACK_BOOL = False
         if 'GAME_START' not in st.session_state:
             st.session_state.GAME_START = True
+        if 'PREV_QUART' not in st.session_state:
+            st.session_state.PREV_QUART = 1
+        if 'RECEIVE_BOOL' not in st.session_state:
+            st.session_state.RECEIVE_BOOL = False
         
         st.session_state.SACK_BOOL = False
 
