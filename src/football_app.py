@@ -74,12 +74,12 @@ class FBApp:
         st.write('')
 
         if st.session_state.RESULT == 'TOUCHDOWN!':
-            _,col,_ = st.columns([2.4,3,1])
+            _,col,_ = st.beta_columns([1,3,1])
             with col:
                 if st.session_state.RESULT != '':
                     st.subheader(st.session_state.RESULT)
         else:
-            _,col,_ = st.columns([1.7,3,1])
+            _,col,_ = st.beta_columns([1,3,1])
             with col:
                 if st.session_state.RESULT != '':
                     st.subheader(st.session_state.RESULT)
@@ -128,11 +128,11 @@ class FBApp:
                 if st.session_state.QUARTER <= 4:
                     self.display_playcall_choices()
                 else:
-                    _,col,_ = st.columns([1.4,3,1])
+                    _,col,_ = st.beta_columns([1,3,1])
                     with col:
                         st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
 
-                    _,_,col,_,_ = st.columns(5)
+                    _,_,col,_,_ = st.beta_columns([1,1,5,1,1])
                     with col:
                         if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
                             st.subheader('YOU WIN!')
