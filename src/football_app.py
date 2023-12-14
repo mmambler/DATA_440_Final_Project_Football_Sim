@@ -148,25 +148,25 @@ class FBApp:
         if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
-                st.button('RUSH', on_click=self.rush_master_update)
+                rush_button = st.button('RUSH', on_click=self.rush_master_update)
             with col2:
-                st.button('PASS', on_click=self.pass_master_update)
+                pass_button = st.button('PASS', on_click=self.pass_master_update)
                     
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
-                st.button('PUNT', on_click=self.punt_update)
+                punt_button = st.button('PUNT', on_click=self.punt_update)
             with col2:
-                st.button('TRY FG', on_click=self.fg_update)
+                FG_button = st.button('TRY FG', on_click=self.fg_update)
                 
             if st.session_state.RESULT in dropdown.drive_end_list_adv:
                 _,_,_,col,_,_,_ = st.columns(7)
                 with col:
-                    st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
+                    sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
                 
             if st.session_state.RESULT in dropdown.drive_end_list_disadv:
                 _,_,_,col,_,_,_ = st.columns(7)
                 with col:
-                    st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
+                    sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
 
         return
     
