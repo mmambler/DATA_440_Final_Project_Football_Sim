@@ -66,6 +66,7 @@ class FBApp:
         self.field = FBField(hash = st.session_state.HASH, 
                              field_pos=st.session_state.FIELD_POS, 
                              distance=st.session_state.DISTANCE)
+        
         st.pyplot(self.field.fig)
 
         st.write('')
@@ -86,11 +87,12 @@ class FBApp:
         if st.session_state.GAME_START:
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
-                st.button('KICK', on_click=self.choose_kick)
+                if st.button('KICK'):
+                    st.rerun()
             with col2:
-                st.button('RECEIVE', on_click=self.choose_receive)
-
-            st.session_state.GAME_START = False
+                if st.button('RECEIVE'):
+                    st.session_state.GAME_START = False
+                    st.rerun()
 
         else:
             if st.session_state.QUARTER <= 4:
@@ -108,35 +110,6 @@ class FBApp:
                         st.subheader('YOU TIE!')
                     else:
                         st.subheader('YOU LOSE')
-        
-        if st.session_state.RECEIVE_BOOL:
-            self.display_playcall_choices()
-            st.session_state.RECEIVE_BOOL = False
-
-        elif st.session_state.KICK_BOOL:
-            _,_,_,col,_,_,_ = st.columns(7)
-            with col:
-                st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
-            st.session_state.KICK_BOOL = False
-
-
-        return
-    
-    def choose_receive(self):
-        '''
-        Sets boolean value if player decided to receive at game start
-        '''
-
-        st.session_state.RECEIVE_BOOL = True
-
-        return
-    
-    def choose_kick(self):
-        '''
-        Sets boolean value if player decided to kick at game start
-        '''
-
-        st.session_state.KICK_BOOL = True
 
         return
     
@@ -586,10 +559,6 @@ class FBApp:
             st.session_state.SACK_BOOL = False
         if 'GAME_START' not in st.session_state:
             st.session_state.GAME_START = True
-        if 'RECEIVE_BOOL' not in st.session_state:
-            st.session_state.RECEIVE_BOOL = False
-        if 'KICK_BOOL' not in st.session_state:
-            st.session_state.KICK_BOOL = False
         
         st.session_state.SACK_BOOL = False
 
