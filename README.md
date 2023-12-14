@@ -30,6 +30,6 @@ https://gridiron-guru-football-sim.streamlit.app
 - ~~Fumbles~~
 - ~~Sacks~~
 - Halftime ends the current drive
-- Coin Toss/User deciding whether to kick or receive at game start
+- ~~Coin Toss/User deciding whether to kick or receive at game start~~
 - Align result messages to always be centered
 - ~~Display Final Score at game end~~
