@@ -157,15 +157,15 @@ class FBApp:
             with col2:
                 FG_button = st.button('TRY FG', on_click=self.fg_update)
                 
-            if st.session_state.RESULT in dropdown.drive_end_list_adv:
-                _,_,_,col,_,_,_ = st.columns(7)
-                with col:
-                    sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
+        if st.session_state.RESULT in dropdown.drive_end_list_adv:
+            _,_,_,col,_,_,_ = st.columns(7)
+            with col:
+                sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
                 
-            if st.session_state.RESULT in dropdown.drive_end_list_disadv:
-                _,_,_,col,_,_,_ = st.columns(7)
-                with col:
-                    sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
+        if st.session_state.RESULT in dropdown.drive_end_list_disadv:
+            _,_,_,col,_,_,_ = st.columns(7)
+            with col:
+                sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_disadv)
 
         return
     
