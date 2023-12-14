@@ -92,7 +92,7 @@ class FBApp:
             with col2:
                 if st.button('RECEIVE'):
                     st.session_state.GAME_START = False
-                    st.rerun()
+                    #st.rerun()
 
         else:
             if st.session_state.QUARTER <= 4:
