@@ -81,7 +81,7 @@ class FBApp:
         else:
             if st.session_state.RESULT != '':
                 if (st.session_state.RESULT == 'FG MISSED') or (st.session_state.RESULT == 'FG IS GOOD!'):
-                    _,col,_ = st.columns([2.6,3,1])
+                    _,col,_ = st.columns([2.7,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
                 else:
