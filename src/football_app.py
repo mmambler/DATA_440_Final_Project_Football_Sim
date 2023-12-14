@@ -85,7 +85,7 @@ class FBApp:
                     with col:
                         st.subheader(st.session_state.RESULT)
                 else:
-                    _,col,_ = st.columns([2,3,1])
+                    _,col,_ = st.columns([1.7,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
 
