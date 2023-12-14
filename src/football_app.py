@@ -88,6 +88,8 @@ class FBApp:
             _,_,_,col1, col2,_,_,_ = st.columns([1,1,1,1,1.5,1,1,1])
             with col1:
                 if st.button('KICK'):
+                    self.reset_drive_adv()
+                    st.session_state.GAME_START = False
                     st.rerun()
             with col2:
                 if st.button('RECEIVE'):
