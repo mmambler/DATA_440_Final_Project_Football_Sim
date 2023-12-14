@@ -118,8 +118,10 @@ class FBApp:
                     if st.button('Begin 2nd Half'):
                         if st.session_state.RECEIVE_BOOL:
                             self.reset_drive_adv()
+                            st.session_state.RESULT = ''
                             st.rerun()
                         else:
+                            st.session_state.RESULT = ''
                             st.rerun()
                 
             else:
