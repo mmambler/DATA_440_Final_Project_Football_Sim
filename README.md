@@ -26,7 +26,7 @@ https://gridiron-guru-football-sim.streamlit.app
 - A restart button is displayed in the header that allows the user to begin a new game whenever they so choose
 
 ## A Note on Calculations
-For the yards gained on a given run/pass play, a real-world outcome is sampled from all plays of the same type under the same down and distance game scenariofrom NFL games during the 2013 to 2022 seasons. Any other generated game results such as turnovers, incompletions, made field goals, CPU scoring, etc. are based on league-average probabilities for each individual event. These calculations were put in place in an attempt to make the outcomes as realistic as possible.
+For the yards gained on a given run/pass play, a real-world outcome is sampled from all plays of the same type under the same down and distance from NFL games during the 2013 to 2022 seasons. Any other generated game results such as turnovers, incompletions, made field goals, CPU scoring, etc. are based on league-average probabilities for each individual event. These calculations were put in place in an attempt to make the outcomes as realistic as possible.
 
 ## Limitation Warning
 Due to Streamlits inherent limitations, continuing to repetitively press buttons as the the app is calculating an initial button press can cause the entire streamlit app to crash/get stuck in a running state. This will break the simulator and require it to be redeployed. Should this ever happen, please reach out to the developer at mmambler@wm.edu to resolve this issue.
