@@ -1,7 +1,5 @@
 # Gridiron Guru: Offensive Playcalling Simulator
 
-![](https://github.com/mmambler/DATA_440_Final_Project_Football_Sim/blob/data/Screenshot.png?raw=true)
-
 The Gridiron Guru: Offensive Playcalling Simulator gives you the opportunity to take on the role of an NFL Offensive Coordinator, making decisions that affect the number of yards you gain, how many points you score, and whether or not your team wins a game against a realistic NFL defense. On each play you are given the choice to either run, pass, punt, or kick a field goal, and based on what you choose an outcome will be generated from real-world NFL play distributions and probabilities. Think you have what it takes? Visit the link below to test out the simulator yourself and strive for dominance on the NFL gridiron!
 
 ## Streamlit Link:
