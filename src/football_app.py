@@ -80,7 +80,7 @@ class FBApp:
                     st.subheader(st.session_state.RESULT)
         else:
             if st.session_state.RESULT != '':
-                if (st.session_state.RESULT == 'FG MISSED') or (st.session_state.RESULT == 'FG IS GOOD!'):
+                if (st.session_state.RESULT == 'FG MISSED') or (st.session_state.RESULT == 'FG IS GOOD!') or (st.session_state.RESULT == 'INTERCEPTION'):
                     _,col,_ = st.columns([2.7,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
@@ -470,7 +470,7 @@ class FBApp:
     
     def update_position_pass(self):
 
-        rand_num = .01 #random.random()
+        rand_num = .03 #random.random()
         if rand_num <= 0.01:
             # Fumble
             st.session_state.RESULT = 'FUMBLE'
