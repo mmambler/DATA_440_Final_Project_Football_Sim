@@ -80,12 +80,16 @@ class FBApp:
                     st.subheader(st.session_state.RESULT)
         else:
             if st.session_state.RESULT != '':
-                if (st.session_state.RESULT == 'FG MISSED') or (st.session_state.RESULT == 'FG IS GOOD!') or (st.session_state.RESULT == 'INTERCEPTION'):
+                if (st.session_state.RESULT == 'FG MISSED') or (st.session_state.RESULT == 'FG IS GOOD!'):
                     _,col,_ = st.columns([2.7,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
                 elif st.session_state.RESULT == 'FUMBLE':
                     _,col,_ = st.columns([2.9,3,1])
+                    with col:
+                        st.subheader(st.session_state.RESULT)
+                elif st.session_state.RESULT == 'INTERCEPTION':
+                    _,col,_ = st.columns([2.4,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
                 else:
