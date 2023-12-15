@@ -23,6 +23,7 @@ class FBApp:
     
     def build_page(self):
         
+        # Diplay title & author credit
         st.header("Gridiron Guru: Offensive Playcalling Simulator")
         _,_,col,_,_ = st.columns(5)
         with col:
@@ -30,10 +31,13 @@ class FBApp:
 
         st.write('')
 
+        # Display all necessary game state information
         col1, col2, col3 = st.columns(3)
         with col1:
+            # display user score
             st.subheader('USER: ' + str(st.session_state.USER_SCORE))
         with col2:
+            # display play clock
             if (st.session_state.PREV_QUART == 2) and (st.session_state.QUARTER == 3):
                 st.subheader('Play Clock: 15:00')
             elif st.session_state.QUARTER <= 4:
@@ -41,14 +45,17 @@ class FBApp:
             else:
                 st.subheader('Play Clock: 0:00')
         with col3:
+            # display cpu score
             col_1, col_2 = st.columns(2)
             with col_2:
                 st.subheader('CPU: ' + str(st.session_state.CPU_SCORE))
 
         col1, col2, col3 = st.columns(3)
         with col1:
+            # display button to restart the game
             st.button('RESTART GAME', on_click=self.reset_game)
         with col2:
+            # diplay quarter
             if st.session_state.QUARTER <= 4:
                 st.subheader('Quarter: ' + str(st.session_state.QUARTER))
             else:
@@ -56,6 +63,7 @@ class FBApp:
         with col3:
             col_1, col_2 = st.columns(2)
             with col_2:
+                # display down and distance
                 if st.session_state.DOWN == 1:
                     st.subheader(str(st.session_state.DOWN) + 'st & ' + str(st.session_state.DISTANCE))
                 elif st.session_state.DOWN == 2:
@@ -65,14 +73,17 @@ class FBApp:
                 elif st.session_state.DOWN == 4:
                     st.subheader(str(st.session_state.DOWN) + 'th & ' + str(st.session_state.DISTANCE))
         
+        # generate field visualization from football_viz.py
         self.field = FBField(hash = st.session_state.HASH, 
                              field_pos=st.session_state.FIELD_POS, 
                              distance=st.session_state.DISTANCE)
         
+        # diplay field visualization
         st.pyplot(self.field.fig)
 
         st.write('')
 
+        # display drive results as centered as possible under streamlit's limitations
         if st.session_state.RESULT == 'TOUCHDOWN!':
             _,col,_ = st.columns([2.4,3,1])
             with col:
@@ -99,6 +110,7 @@ class FBApp:
 
         st.write('')
 
+        # if it is the start of the game, display buttons to choose whether to kick or receive first
         if st.session_state.GAME_START:
             _,_,_,col1, col2,_,_,_ = st.columns([1,1,1,1,1.5,1,1,1])
             with col1:
@@ -113,7 +125,9 @@ class FBApp:
                     st.session_state.RECEIVE_BOOL = True
                     st.rerun()
 
+        # if not start of game
         else:
+            # check if it's halftime
             if (st.session_state.PREV_QUART == 2) and (st.session_state.QUARTER == 3):
 
                 st.session_state.PREV_QUART = 3
@@ -125,9 +139,11 @@ class FBApp:
 
                 _,col,_ = st.columns([2.5,3,1])
                 with col:
+                    # display that its halftime
                     st.subheader('HALFTIME')
                 _,_,_,col,_,_,_ = st.columns(7)
                 with col:
+                    # display button to start 2nd half
                     if st.button('Begin 2nd Half'):
                         if st.session_state.RECEIVE_BOOL:
                             self.reset_drive_adv()
@@ -136,15 +152,20 @@ class FBApp:
                         else:
                             st.session_state.RESULT = ''
                             st.rerun()
-                
+            
+            # if not halftime or beginning of game, display playcall choices
             else:
                 if st.session_state.QUARTER <= 4:
                     self.display_playcall_choices()
+                
+                # if end of the game
                 else:
+                    #display final score
                     _,col,_ = st.columns([1.4,3,1])
                     with col:
                         st.subheader('Final Score - User: ' + str(st.session_state.USER_SCORE) + '    CPU: ' + str(st.session_state.CPU_SCORE))
 
+                    # display result of the game
                     _,_,col,_,_ = st.columns(5)
                     with col:
                         if st.session_state.USER_SCORE > st.session_state.CPU_SCORE:
@@ -161,6 +182,7 @@ class FBApp:
         Displays the buttons necessary for calling a play and executes the necessary functions associated with each
         '''
 
+        # if not at end of drive, present buttons for making a playcall
         if (st.session_state.RESULT not in dropdown.drive_end_list_adv) & (st.session_state.RESULT not in dropdown.drive_end_list_disadv):
             _,_,_,col1, col2,_,_,_ = st.columns(8)
             with col1:
@@ -174,11 +196,13 @@ class FBApp:
             with col2:
                 FG_button = st.button('TRY FG', on_click=self.fg_update)
                 
+        # if drive ended neutral/advantageously, present advantageous cpu sim button 
         if st.session_state.RESULT in dropdown.drive_end_list_adv:
             _,_,_,col,_,_,_ = st.columns(7)
             with col:
                 sim_drive_button = st.button('Sim CPU Drive', on_click=self.reset_drive_adv)
-                
+        
+        # if drive ended disadvantageously, present disadvantageous cpu sim button 
         if st.session_state.RESULT in dropdown.drive_end_list_disadv:
             _,_,_,col,_,_,_ = st.columns(7)
             with col:
@@ -310,13 +334,16 @@ class FBApp:
         Updates game state after user field goal
         '''
 
+        # generates random number between 0 and 1
         rand_num = random.random()
 
+        # if 20 yard fg or less, 100% make
         if dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 97:
             st.session_state.USER_SCORE += 3
             st.session_state.RESULT = 'FG IS GOOD!'
             self.update_game()
 
+        # if fg between 20 and 25 yards, 99% make
         elif 97 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 92:
             if rand_num < 0.99:
                 st.session_state.USER_SCORE += 3
@@ -326,6 +353,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
 
+        # if fg between 25 and 30 yards, 96% make
         elif 92 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 87:
             if rand_num < 0.96:
                 st.session_state.USER_SCORE += 3
@@ -335,6 +363,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if fg between 30 and 35 yards, 94% make
         elif 87 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 82:
             if rand_num < 0.94:
                 st.session_state.USER_SCORE += 3
@@ -344,6 +373,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if fg between 35 and 40 yards, 88% make
         elif 82 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 77:
             if rand_num < 0.88:
                 st.session_state.USER_SCORE += 3
@@ -353,6 +383,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if fg between 40 and 45 yards, 79% make
         elif 77 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 72:
             if rand_num < 0.79:
                 st.session_state.USER_SCORE += 3
@@ -362,6 +393,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if fg between 45 and 50 yards, 71% make
         elif 72 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 67:
             if rand_num < 0.71:
                 st.session_state.USER_SCORE += 3
@@ -371,6 +403,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if fg between 50 and 55 yards, 63% make
         elif 67 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 62:
             if rand_num < 0.63:
                 st.session_state.USER_SCORE += 3
@@ -380,6 +413,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if fg between 55 and 60 yards, 52% make
         elif 62 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 57:
             if rand_num < 0.52:
                 st.session_state.USER_SCORE += 3
@@ -389,6 +423,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
 
+        # if fg between 60 and 65 yards, 36% make
         elif 57 > dropdown.field_pos_dict[st.session_state.FIELD_POS] >= 52:
             if rand_num < 0.36:
                 st.session_state.USER_SCORE += 3
@@ -398,6 +433,7 @@ class FBApp:
                 st.session_state.RESULT = 'FG MISSED'
                 self.update_game()
         
+        # if further than 65 yards, 0% make
         else:
             st.session_state.RESULT = 'FG MISSED'
             self.update_game()
@@ -415,7 +451,10 @@ class FBApp:
     
     def update_position_rush(self):
         
+        # Generates a random number between 0 and 1
         rand_num = random.random()
+
+        # 1% of the time, playcall results in a fumble
         if rand_num <= 0.01:
             # Fumble
             st.session_state.RESULT = 'FUMBLE'
@@ -424,36 +463,45 @@ class FBApp:
             st.session_state.FIELD_POS = -25
             return
         
+        # 99% of the time, playcall results in successful rush
         else:
+            # samples from distribution of rushes in the database
             df = self.tRush
             filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
             yards_gained = filter_df['yards_gained'].sample().iloc[0]
             dist_temp = st.session_state.DISTANCE - yards_gained
+            # if didn't reach line to gain
             if dist_temp > 0:
+                # if it wasn't 4th down, moves the ball and updates game state
                 if st.session_state.DOWN < 4:
                     st.session_state.DISTANCE = dist_temp
                     st.session_state.DOWN += 1
                     field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                     st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                     st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
+                # if it was 4th down, results in a turnover on downs
                 else:
                     st.session_state.RESULT = 'TURNOVER ON DOWNS'
                     st.session_state.DOWN = 1
                     st.session_state.DISTANCE = 10
                     st.session_state.FIELD_POS = -25
+            # if reached line to gain
             else:
+                # if further than 10 yards from the end zone, update game state normally
                 if (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) <= 89:
                     st.session_state.DOWN = 1
                     st.session_state.DISTANCE = 10
                     field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                     st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                     st.session_state.RESULT = 'RUSHED FOR ' + str(yards_gained) + ' YARDS!'
+                # if new ball placement in end zone, score touchdown
                 elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
                     st.session_state.USER_SCORE += 7
                     st.session_state.RESULT = 'TOUCHDOWN!'
                     st.session_state.DOWN = 1
                     st.session_state.DISTANCE = 10
                     st.session_state.FIELD_POS = -25
+                # if within 10 yards of end zone, update game state to 1st & Goal
                 else: 
                     st.session_state.DOWN = 1
                     field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
@@ -473,8 +521,14 @@ class FBApp:
         return
     
     def update_position_pass(self):
+        '''
+        Function that generates the outcome of the user choosing 'pass' and updates the game state
+        '''
 
+        # Generates a random number between 0 and 1
         rand_num = random.random()
+
+        # 1% of the time, playcall results in a fumble
         if rand_num <= 0.01:
             # Fumble
             st.session_state.RESULT = 'FUMBLE'
@@ -483,6 +537,7 @@ class FBApp:
             st.session_state.FIELD_POS = -25
             return
 
+        # 3% of the time, playcall results in an interception
         elif rand_num <= 0.04:
             # Interception
             st.session_state.RESULT = 'INTERCEPTION'
@@ -491,23 +546,30 @@ class FBApp:
             st.session_state.FIELD_POS = -25
             return
 
+        # 7% of the time, playcall results in a sack
         elif rand_num <= 0.11:
             # Sack
             yards_gained = -1*int(round(np.random.normal(7,2),0))
             st.session_state.SACK_BOOL = True
 
+        # 54% of the time, playcall results in a complete pass
         elif rand_num <= 0.65:
             # Completed Pass
+            # Samples from distribution of passes in the database
             df = self.tPass
             filter_df = df[(df['down']==st.session_state.DOWN) & (df['distance']==st.session_state.DISTANCE)]
             yards_gained = filter_df['yards_gained'].sample().iloc[0]
 
+        # 35% of the time, playcall results in incomplete pass
         else:
             # Incomplete Pass
             yards_gained = 0
 
+        # depending on result, temporary variable is made by subtracting the yards gained from the yards to the 1st down
         dist_temp = st.session_state.DISTANCE - yards_gained
+        # if didn't reach line to gain
         if dist_temp > 0:
+            # if it wasn't 4th down, moves the ball and updates game state
             if st.session_state.DOWN < 4:
                 st.session_state.DISTANCE = dist_temp
                 st.session_state.DOWN += 1
@@ -518,24 +580,29 @@ class FBApp:
                     st.session_state.SACK_BOOL = False
                 else:
                     st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
+            # if it was 4th down, results in a turnover on downs
             else:
                 st.session_state.RESULT = 'TURNOVER ON DOWNS'
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
                 st.session_state.FIELD_POS = -25
+        # if reached line to gain
         else:
+            # if further than 10 yards from the end zone, update game state normally
             if (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) <= 89:
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
                 st.session_state.FIELD_POS = dropdown.field_pos_dict_reverse[field_pos_temp]
                 st.session_state.RESULT = 'PASSED FOR ' + str(yards_gained) + ' YARDS!'
+            # if new ball placement in end zone, score touchdown
             elif (dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained) > 99:
                 st.session_state.RESULT = 'TOUCHDOWN!'
                 st.session_state.USER_SCORE += 7
                 st.session_state.DOWN = 1
                 st.session_state.DISTANCE = 10
                 st.session_state.FIELD_POS = -25
+            # if within 10 yards of end zone, update game state to 1st & Goal
             else: 
                 st.session_state.DOWN = 1
                 field_pos_temp = dropdown.field_pos_dict[st.session_state.FIELD_POS] + yards_gained
@@ -549,6 +616,8 @@ class FBApp:
     def update_game(self):
         '''
         Updates the game situation after play called
+        This mostly entails running off a randomly sampled amount of playclock
+        and then changing the game state if it changes the number of minutes or the quarter
         '''
 
         runoff = -1*int(round(np.random.normal(20,5), 0))
