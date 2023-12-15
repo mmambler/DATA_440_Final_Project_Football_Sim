@@ -1,35 +1,32 @@
-# DATA_440_Final_Project_Football_Sim
+# Gridiron Guru: Offensive Playcalling Simulator
 
-My final project idea is to use the data from my independent study to create a football game simulator that allows a user to take on the role of an offensive coordinator and decide whether to run or pass the ball on a given play, and a model will return the outcome of that play, whether that be a number of yards gained, a touchdown, a turnover, etc. This outcome will then be used to update the game situation and the user is given the chance to choose once more. The simulation will operate on a play-clock, and it will result in either a win or a loss.
-
-## Data:
-- Pro Football Focus (PFF)
-- NFL play-by-play data from 2013-2022
+The Gridiron Guru: Offensive Playcalling Simulator gives you the opportunity to take on the role of an NFL Offensive Coordinator, making decisions that affect the number of yards you gain, how many points you score, and whether or not your team wins a game against a realistic NFL defense. On each play you are given the choice to either run, pass, punt, or kick a field goal, and based on what you choose an outcome will be generated from real-world NFL play distributions and probabilities. Think you have what it takes? Visit the link below to test out the simulator yourself and strive for dominance on the NFL gridiron!
 
 ## Streamlit Link:
 To play the game and test out the simulation yourself, visit the following link:
 https://gridiron-guru-football-sim.streamlit.app
 
-## Important Info
-- All randomly simulated instances in the game are either based on real-life league average proportions or sampled directly from the NFL dataset from 2013-2022.
-- The original plan was to build a full-fledged regression model to predict the number of yards each play would gain, but there proved to be too little signal in the data. Thus, I pivoted to using the data as a distribution from which I would sample play results by situation.
+## Data Source:
+- Pro Football Focus (PFF) Ultimate
+- Passing and Rushing Data Feeds
+- NFL play-by-play data from 2013-2022
+- SQLite database generated in football_db.py
+- the SQLite database, .csv files, and an ERD are located in the 'data' folder
 
-## Current Functionality
-- Game state displayed
-- Restart game button
-- Field position and line-to-gain indicated by lines and football on the field that move as the game state updates
-- Clock that runs off a randomly generated number of seconds after each play call
-- Buttons for: rushing, passing, punting, and kicking a field goal
-- If a drive results in points, the score is updated
-- At the end of a user drive, the user is prompted to sim cpu drive, and this then simulates a cpu drive result and runs off a game accurate amount of playclock
-- Increased likelihood of CPU scoring after a Turnover on Downs or Missed Field Goal
+## Simulator Features
+- Choose whether to kick or receive to start the game
+- Buttons with the following choices: rush, pass, punt, try a field goal
+- After each choice the field position and line to gain are updated, as well as the game state
+- Each play results in a random clock runoff
+- If the drive results in points, the score is updated and displayed in the header
+- Failure comes with consequences in the way of improved likelihood of the CPU scoring after turnovers or missed kicks
+- Playcalling decisions also come with the chance of interceptions, sacks, fumbles, incompletions, etc.
+- After halftime, depending whether the user chose kick or receive to start, the opposite will occur
+- At game end, the final score will be decided and a winner declared
+- A restart button is displayed in the header that allows the user to begin a new game whenever they so choose
 
-## Functionality yet to be added
-- ~~AT CURRENT STATE THE GAME NEVER ENDS! This is important to know for testing purposes. It will continue on to quarter 5, quarter 6, and so on.~~
-- ~~Interceptions~~
-- ~~Fumbles~~
-- ~~Sacks~~
-- Halftime ends the current drive
-- ~~Coin Toss/User deciding whether to kick or receive at game start~~
-- Align result messages to always be centered
-- ~~Display Final Score at game end~~
+## A Note on Calculations
+For the yards gained on a given run/pass play, a real-world outcome is sampled from all plays of the same type under the same down and distance game scenariofrom NFL games during the 2013 to 2022 seasons. Any other generated game results such as turnovers, incompletions, made field goals, CPU scoring, etc. are based on league-average probabilities for each individual event. These calculations were put in place in an attempt to make the outcomes as realistic as possible.
+
+## Limitation Warning
+Due to Streamlits inherent limitations, continuing to repetitively press buttons as the the app is calculating an initial button press can cause the entire streamlit app to crash/get stuck in a running state. This will break the simulator and require it to be redeployed. Should this ever happen, please reach out to the developer at mmambler@wm.edu to resolve this issue.
