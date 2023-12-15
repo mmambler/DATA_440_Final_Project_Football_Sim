@@ -123,7 +123,7 @@ class FBApp:
                 st.session_state.DISTANCE = 10
                 st.session_state.FIELD_POS = -25
 
-                _,col,_ = st.columns([2,3,1])
+                _,col,_ = st.columns([2.5,3,1])
                 with col:
                     st.subheader('HALFTIME')
                 _,_,_,col,_,_,_ = st.columns(7)
