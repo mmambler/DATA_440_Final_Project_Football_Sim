@@ -89,7 +89,7 @@ class FBApp:
                     with col:
                         st.subheader(st.session_state.RESULT)
                 elif st.session_state.RESULT == 'INTERCEPTION':
-                    _,col,_ = st.columns([2.4,3,1])
+                    _,col,_ = st.columns([2.3,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
                 else:
