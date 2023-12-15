@@ -84,6 +84,10 @@ class FBApp:
                     _,col,_ = st.columns([2.7,3,1])
                     with col:
                         st.subheader(st.session_state.RESULT)
+                elif st.session_state.RESULT == 'FUMBLE':
+                    _,col,_ = st.columns([2.7,3,1])
+                    with col:
+                        st.subheader(st.session_state.RESULT)
                 else:
                     _,col,_ = st.columns([1.7,3,1])
                     with col:
@@ -466,7 +470,7 @@ class FBApp:
     
     def update_position_pass(self):
 
-        rand_num = random.random()
+        rand_num = .01 #random.random()
         if rand_num <= 0.01:
             # Fumble
             st.session_state.RESULT = 'FUMBLE'
